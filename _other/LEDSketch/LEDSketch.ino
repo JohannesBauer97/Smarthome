@@ -4,9 +4,9 @@
 #include <ESP8266WebServer.h>
 
 #define LED 2
-#define REDPIN 6
-#define GREENPIN 5
-#define BLUEPIN 2
+#define REDPIN 12
+#define GREENPIN 14
+#define BLUEPIN 4
 
 int RVal = 0;
 int GVal = 0;
@@ -38,37 +38,22 @@ void handleRoot() {
     webserver.send(200,"text/html","Configuration successful.");
     Serial.println("Wifi SSID: " + wifissid);
     Serial.println("Wifi Password: " + wifipassword);
-    delay(500);
+    Serial.println("Stopping webserver.");
     webserver.stop();
-    delay(500);
+    Serial.println("Webserver stopped.");
     webserverStopped = true;
+    Serial.println("Stopping softAP.");
     WiFi.softAPdisconnect(true);
-    delay(5000);
+    Serial.println("SoftAP stopped.");
 
+    //Converting WiFi Credentials from String to Char[]
     char wifissidchar[wifissid.length() + 1];
     char wifipasschar[wifipassword.length() + 1];
     wifissid.toCharArray(wifissidchar,wifissid.length() + 1);
     wifipassword.toCharArray(wifipasschar,wifipassword.length() + 1);
 
+    Serial.println("Trying to connect to " + wifissid + ".");
     WiFi.begin(wifissidchar, wifipasschar);
-    Serial.print("Connection to Wifi");
-    uint8_t i = 0;
-    while (WiFi.status() != WL_CONNECTED) {
-      if(i >= 60){
-        Serial.println("Wifi Connect Timed Out. Hardreset.");
-        ESP.reset();
-      }
-      
-      digitalWrite(LED, HIGH);
-      delay(500);
-      digitalWrite(LED, LOW);
-      Serial.print(WiFi.status());
-      Serial.print(".");
-      i++;
-    }
-    Serial.println("");
-    digitalWrite(LED, HIGH);
-    delay(1000);
     return;
   }
 
@@ -90,24 +75,21 @@ void handleRoot() {
 }
 
 void info(){
-  char r[3], g[3], b[3];
-
-  sprintf(r, "%02x", RVal);
-  sprintf(g, "%02x", GVal);
-  sprintf(b, "%02x", BVal);
-
-  sprintf(valInfo,"#%s%s%s",r,g,b);
+  sprintf(valInfo,"#%02x%02x%02x", RVal, GVal, BVal);
 }
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("Setting Hostname");
   WiFi.hostname("ESP_" + ID);
-  
+
+  Serial.println("Setting PinModes");
   pinMode(LED, OUTPUT);
   pinMode(REDPIN, OUTPUT);
   pinMode(GREENPIN, OUTPUT);
   pinMode(BLUEPIN, OUTPUT);
 
+  Serial.println("Setting LED Pins to 0");
   analogWrite(REDPIN, RVal);
   analogWrite(GREENPIN, GVal);
   analogWrite(BLUEPIN, BVal);
@@ -128,12 +110,22 @@ void loop() {
     return;
   }
 
+  Serial.print("WiFi.status(): ");
+  Serial.println(WiFi.status());
+  
+  /*if(WiFi.status() != WL_CONNECTED){
+    Serial.println("Not connected with WiFi");
+    return;
+  }else{
+    Serial.println("Connected with WiFi.");
+  }*/
+
   WiFiClient client;
   if (!client.connect(ip, Port)) {
         Serial.println("Connection to TCP Server failed. Waiting 5 seconds.");
         delay(5000);
         return;
-  }
+    }
 
   char response[8]; //response außerhalb deklarieren und innerhalb auf 0 setzen?
   while(client.connected()){
