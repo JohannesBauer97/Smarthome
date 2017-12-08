@@ -3,10 +3,10 @@
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
 
-#define LED D4
-#define REDPIN D6
-#define GREENPIN D5
-#define BLUEPIN D2
+#define LED 2
+#define REDPIN 6
+#define GREENPIN 5
+#define BLUEPIN 2
 
 int RVal = 0;
 int GVal = 0;
@@ -92,28 +92,14 @@ void handleRoot() {
 void info(){
   char r[3], g[3], b[3];
 
-  if(RVal <= 15){
-      sprintf(r, "0%x", RVal);
-  }else{
-    sprintf(r, "%x", RVal);
-  }
+  sprintf(r, "%02x", RVal);
+  sprintf(g, "%02x", GVal);
+  sprintf(b, "%02x", BVal);
 
-  if(GVal <= 15){
-      sprintf(g, "0%x", GVal);
-  }else{
-    sprintf(g, "%x", GVal);
-  }
-  
-  if(BVal <= 15){
-      sprintf(b, "0%x", BVal);
-  }else{
-    sprintf(b, "%x", BVal);
-  }
   sprintf(valInfo,"#%s%s%s",r,g,b);
 }
 
 void setup() {
-  delay(1000);
   Serial.begin(115200);
   WiFi.hostname("ESP_" + ID);
   
@@ -147,7 +133,7 @@ void loop() {
         Serial.println("Connection to TCP Server failed. Waiting 5 seconds.");
         delay(5000);
         return;
-    }
+  }
 
   char response[8]; //response außerhalb deklarieren und innerhalb auf 0 setzen?
   while(client.connected()){
@@ -178,6 +164,7 @@ void loop() {
     }
 
     response[0] = 0;
+    yield();
   }
   
   Serial.println("Closing TCP connection.");

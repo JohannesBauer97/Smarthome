@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Websocket Server</title>
+        <script src="jquery.js"></script>
+        <script src="socket.io.slim.js"></script>
+        <script src="jscolor.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <h2 style="margin:0; padding:0;">Example JS communication with NodeJS Server (Console Output)</h2>
+        <hr>
+        getStripes();<br>
+        <button onclick="getStripes();">Fire</button><br>
+        <br>
+        getStripeColor();<br>
+        <input type="text" placeholder="stripeName" id="getStripeColor_stripeName"><br>
+        <button onclick="getStripeColor($('#getStripeColor_stripeName').val());">Fire</button><br>
+        <br>
+        setStripeColor();<br>
+        <input type="text" placeholder="stripeName" id="setStripeColor_stripName"><br>
+        <input type="text" placeholder="#ff00ff" id="setStripeColor_color"><br>
+        <button onclick="setStripeColor($('#setStripeColor_stripName').val(),$('#setStripeColor_color').val());">Fire</button>
+    </body>
+</html>
