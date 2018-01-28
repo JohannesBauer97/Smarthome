@@ -1,0 +1,8 @@
+<div class="card" [style.background]="_hexVal">
+  <div class="card-body">
+    <h5 class="card-title">{{led.hostname}}</h5>
+    <input type="range" min="0" max="255" value="0" [(ngModel)]="_red" (input)="_sendColor()">
+    <input type="range" min="0" max="255" value="0" [(ngModel)]="_green" (input)="_sendColor()">
+    <input type="range" min="0" max="255" value="0" [(ngModel)]="_blue" (input)="_sendColor()">
+  </div>
+</div>

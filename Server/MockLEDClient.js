@@ -18,7 +18,7 @@ client.on('data',function(data){
     if (data[0] == '#') {
         color = data;
     }else if(data[0] == 'I'){
-        client.write(color,'ascii');
+        client.write(color + " Mock",'ascii');
     }
     
 });
