@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ledSocketUrl: 'http://localhost:80'
+  ledSocketUrl: 'http://127.0.0.1:8512'
 };
 
 /*

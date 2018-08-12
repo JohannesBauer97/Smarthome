@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  ledSocketUrl: 'http://192.168.188.24:8512'
 };

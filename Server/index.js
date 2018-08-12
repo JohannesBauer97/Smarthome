@@ -74,8 +74,8 @@ net.createServer(function (socket) {
 /**
  * Starting HTTP Server
  */
-http.listen(80, function(){
-    console.log('listening on *:80');
+http.listen(8512, function(){
+    console.log('listening on *:8512');
 });
 
 io.on('connection', function(socket){
