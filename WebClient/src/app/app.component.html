@@ -1,4 +1,29 @@
-<app-navbar></app-navbar>
-<main role="main" class="container-fluid">
-  <router-outlet></router-outlet>
-</main>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="led-board">LED Stripes</a>
+      <!-- <a mat-list-item routerLink="temp-board">Lufttemperatur/-feuchtigkeit</a> -->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Smarthome</span>
+    </mat-toolbar>
+
+    <div style="padding:10px;">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

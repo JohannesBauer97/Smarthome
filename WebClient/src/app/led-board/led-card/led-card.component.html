@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between start">
+    <mat-card-title class="title">{{led.hostname}}</mat-card-title>
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="refresh()">
+          <mat-icon>refresh</mat-icon>
+          <span>Refresh</span>
+        </button>
+        <button mat-menu-item (click)="setColor('#000000'); selectedColor = '#000000'">
+          <mat-icon>toggle_off</mat-icon>
+          <span>Off</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <span [cpToggle]="true"
+          [cpDialogDisplay]="'inline'"
+          [cpCancelButton]="false"
+          (colorPickerChange)="setColor($event)"
+          [(colorPicker)]="selectedColor"></span>
+  </mat-card-content>
+</mat-card>

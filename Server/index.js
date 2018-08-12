@@ -79,18 +79,22 @@ http.listen(80, function(){
 });
 
 io.on('connection', function(socket){
-    console.log('WebClient connected.');
+    // console.log('WebClient connected.');
+    getStripes();
+
     
     /**
      * Gets all connected LEDStripes
      */
-    socket.on('getStripes',function(){
+    socket.on('getStripes',getStripes);
+
+    function getStripes(){
         var LEDSocketNames = [];
         LEDSockets.forEach(LEDsock => {
             LEDSocketNames.push({name:LEDsock.name, hostname:LEDsock.hostname, color:LEDsock.color});
         });
         socket.emit('getStripes',LEDSocketNames);
-    });
+    }
 
     /**
      * Gets the color of a connected LEDStripe
@@ -120,8 +124,8 @@ io.on('connection', function(socket){
         if(!LEDsock){
             return;
         }
-        console.log(SockColor);
         LEDsock.write(SockColor,'ascii');
+        LEDsock.color = SockColor;
         //LEDsock.write('I','ascii');
     });
 
