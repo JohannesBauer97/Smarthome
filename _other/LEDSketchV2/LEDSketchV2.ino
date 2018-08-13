@@ -40,6 +40,7 @@ void setup() {
   pinMode(GREENPIN, OUTPUT);
   pinMode(BLUEPIN, OUTPUT);
   digitalWrite(LED, LOW);
+  
   Serial.println("Setting LED Pins to 0");
   analogWrite(REDPIN, RVal);
   analogWrite(GREENPIN, GVal);
@@ -48,8 +49,10 @@ void setup() {
   Serial.println("Starting AP");
   WiFi.mode(WIFI_AP);
   IPAddress apIP(192,168,1,1);
-  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
+  
   WiFi.softAP("LED-Strip");
+  delay(1000);
+  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
 
   Serial.println("Starting DNS");
   dnsServer.start(53, "*", apIP);
@@ -160,6 +163,7 @@ void handleRoot(){
     WiFi.hostname(room);
     WiFi.begin(wifiSSID.c_str(), wpaKey.c_str());
     setupCompleted = true;
+    digitalWrite(LED, HIGH);
   }else{
     webserver.send(200,"text/html",HTMLSETUP);
   }
