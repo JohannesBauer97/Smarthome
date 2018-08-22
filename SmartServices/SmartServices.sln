@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIService", "UIService\UIService.csproj", "{0E7FD276-BBDC-4100-9DFA-4A77685FE8F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LEDService", "LEDService\LEDService.csproj", "{8D5155AC-D7DF-4B3F-965A-84B694B3E44A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E7FD276-BBDC-4100-9DFA-4A77685FE8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7FD276-BBDC-4100-9DFA-4A77685FE8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7FD276-BBDC-4100-9DFA-4A77685FE8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7FD276-BBDC-4100-9DFA-4A77685FE8F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D5155AC-D7DF-4B3F-965A-84B694B3E44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D5155AC-D7DF-4B3F-965A-84B694B3E44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D5155AC-D7DF-4B3F-965A-84B694B3E44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D5155AC-D7DF-4B3F-965A-84B694B3E44A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16A7340A-1C0A-417D-BDC6-732842F07E24}
+	EndGlobalSection
+EndGlobal
