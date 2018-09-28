@@ -1,0 +1,93 @@
+homeassistant:
+  name: Home
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  elevation: 247
+  unit_system: metric
+  time_zone: Europe/Berlin
+  customize: !include customize.yaml
+
+frontend:
+
+config:
+
+updater:
+
+discovery:
+
+conversation:
+
+history:
+
+history_graph:
+  sensors:
+    name: Sensors
+    entities:
+      - sensor.Room_Temperature
+      - sensor.Server_CPU_Temperatur
+      - sensor.yahoo_temperature
+      - sensor.yahoo_humidity
+      - sensor.yahoo_pressure
+    hours_to_show: 24
+    refresh: 60
+
+logbook:
+
+map:
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.mqtt: debug
+
+sun:
+
+mqtt:
+
+sensor:
+  - platform: yr
+  - platform: mqtt
+    state_topic: "room/humidity"
+    name: "Room Humidity"
+    unit_of_measurement: "%"
+    value_template: "{{ value | round(2) }}"
+    device_class: humidity
+  - platform: mqtt
+    state_topic: "room/temperature"
+    name: "Room Temperature"
+    unit_of_measurement: "°C"
+    value_template: "{{ value | round(2) }}"
+    device_class: temperature
+  - platform: command_line
+    name: "Server CPU Temperatur"
+    command: "cat /sys/devices/virtual/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: "{{ value | multiply(0.001) | round(2) }}"
+    device_class: temperature
+    scan_interval: 60
+  - platform: yweather
+    name: Yahoo
+    monitored_conditions:
+      - weather
+      - weather_current
+      - temperature
+      - pressure
+      - humidity
+      - temp_min
+      - temp_max
+      - wind_speed
+      - visibility
+    scan_interval: 300
+
+tts:
+  - platform: google
+
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+weather:
+  - platform: yweather
+    name: Stuttgart Weather
