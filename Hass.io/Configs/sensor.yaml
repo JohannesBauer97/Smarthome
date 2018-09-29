@@ -40,8 +40,10 @@
     api_key: !secret alphavantage_key
     symbols:
       - symbol: GOOGL
+        currency: USD
         name: Google
       - symbol: AMZN
+        currency: USD
         name: Amazon
     foreign_exchange:
       - name: BTC_EUR

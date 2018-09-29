@@ -47,8 +47,18 @@ views:
       - type: entities
         title: Investments
         entities:
+          - entity: sensor.google
+            name: Google
+          - entity: sensor.amazon
+            name: Amazon
           - entity: sensor.btc_eur
             name: BTC -> EUR
+          - entity: sensor.eth_eur
+            name: ETH -> EUR
+            icon: mdi:ethereum
+          - entity: sensor.ltc_eur
+            icon: mdi:litecoin
+            name: LTC -> EUR
 # ===========
 # WEATHER
 # ===========

@@ -70,9 +70,7 @@ zone 2:
   radius: 50
 
 logger:
-  default: warning
-  logs:
-    homeassistant.components.mqtt: debug
+  default: error
 
 mqtt:
   password: !secret mqtt_password
