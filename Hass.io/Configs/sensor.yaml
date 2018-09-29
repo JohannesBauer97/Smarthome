@@ -1,16 +1,19 @@
   - platform: yr
+
   - platform: mqtt
     state_topic: "s1/hum"
     name: "Room Humidity"
     unit_of_measurement: "%"
     value_template: "{{ value | round(2) }}"
     device_class: humidity
+
   - platform: mqtt
     state_topic: "s1/temp"
     name: "Room Temperature"
     unit_of_measurement: "°C"
     value_template: "{{ value | round(2) }}"
     device_class: temperature
+
   - platform: command_line
     name: "Server CPU Temperatur"
     command: "cat /sys/devices/virtual/thermal/thermal_zone0/temp"
@@ -18,6 +21,7 @@
     value_template: "{{ value | multiply(0.001) | round(2) }}"
     device_class: temperature
     scan_interval: 60
+
   - platform: yweather
     name: Yahoo
     monitored_conditions:
@@ -31,21 +35,47 @@
       - wind_speed
       - visibility
     scan_interval: 300
+
   - platform: alpha_vantage
     api_key: !secret alphavantage_key
     symbols:
       - symbol: GOOGL
         name: Google
+      - symbol: AMZN
+        name: Amazon
     foreign_exchange:
-      - name: USD_EUR
-        from: USD
+      - name: BTC_EUR
+        from: BTC
         to: EUR
+      - name: LTC_EUR
+        from: LTC
+        to: EUR
+      - name: ETH_EUR
+        from: ETH
+        to: EUR
+
   - platform: luftdaten
     sensorid: 13173
     show_on_map: true
     monitored_conditions:
       - P1
       - P2
+
   - platform: deutsche_bahn
-    from: !secret db_home
-    to: !secret db_work
+    from: "Löwentorbrücke, Stuttgart"
+    to: "Maybachstraße, Stuttgart"
+  - platform: deutsche_bahn
+    from: "Löwentorbrücke, Stuttgart"
+    to: "Hauptbahnhof, Stuttgart"
+  - platform: deutsche_bahn
+    from: "Killesberg, Stuttgart"
+    to: "Hauptbahnhof, Stuttgart"
+  - platform: deutsche_bahn
+    from: "Kunstakademie, Stuttgart"
+    to: "Hauptbahnhof, Stuttgart"
+  - platform: deutsche_bahn
+    from: "Oskar-Schlemmer-Straße, Stuttgart"
+    to: "Pragsattel, Stuttgart"
+  - platform: deutsche_bahn
+    from: "Löwentorbrücke, Stuttgart"
+    to: "Sieglestraße, Stuttgart"

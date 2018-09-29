@@ -1,0 +1,119 @@
+title: Home
+
+resources:
+  - url: https://unpkg.com/moment@2.22.2/moment.js
+    type: js
+  - url: /local/custom_ui/calendar-card.js?v=0.1
+    type: module
+
+views:
+# ===========
+# HOME
+# ===========
+  - icon: mdi:home
+    id: home
+    cards:
+      - type: entity-filter
+        entities:
+          - device_tracker.joba
+        state_filter:
+          - 'home'
+        card:
+          type: glance
+          title: People that are home
+      - type: entities
+        title: VVS Info
+        entities:
+          - sensor.lowentorbrucke_stuttgart_to_maybachstrasse_stuttgart
+          - sensor.killesberg_stuttgart_to_hauptbahnhof_stuttgart
+          - sensor.lowentorbrucke_stuttgart_to_hauptbahnhof_stuttgart
+          - sensor.lowentorbrucke_stuttgart_to_sieglestrasse_stuttgart
+          - entity: sensor.kunstakademie_stuttgart_to_hauptbahnhof_stuttgart
+            icon: mdi:bus
+          - entity: sensor.oskarschlemmerstrasse_stuttgart_to_pragsattel_stuttgart
+            icon: mdi:bus
+      - type: "custom:calendar-card"
+        name: Calendar
+        entities:
+          - calendar.jobas_plan
+          - calendar.feiertage_in_deutschland
+          - calendar.week_numbers
+      - type: "custom:calendar-card"
+        name: Birthdays
+        showProgressBar: false
+        entities:
+          - calendar.contacts
+          - calendar.facebook_birthdays
+      - type: entities
+        title: Investments
+        entities:
+          - entity: sensor.btc_eur
+            name: BTC -> EUR
+# ===========
+# WEATHER
+# ===========
+  - icon: mdi:cloud
+    id: weather
+    cards:
+      - type: entities
+        title: Fine Dust
+        entities:
+          - entity: sensor.luftdaten_pm10
+            icon: mdi:terrain
+          - entity: sensor.luftdaten_pm25
+            icon: mdi:terrain
+      - type: entities
+        title: Weather Stuttgart
+        entities:
+          - entity: sensor.yahoo_temperature_min
+            name: Min. Temperature
+          - entity: sensor.yahoo_temperature
+            name: Temperature
+          - entity: sensor.yahoo_temperature_max
+            name: Max. Temperature
+          - entity: sensor.yahoo_humidity
+            name: Humidity
+          - entity: sensor.yahoo_pressure
+            name: Pressure
+          - entity: sensor.yahoo_visibility
+            name: Sight
+          - entity: sensor.yahoo_wind_speed
+            name: Windspeed
+          - sun.sun
+          - entity: sensor.yahoo_current
+            name: Sky
+      - type: weather-forecast
+        entity: weather.stuttgart_weather
+# ===========
+# ROOM
+# ===========
+  - title: Room
+    id: room
+    cards:
+      - type: entities
+        title: Sensors
+        entities:
+          - entity: sensor.room_temperature
+            name: Temperature
+          - entity: sensor.server_cpu_temperatur
+            name: Raspberry Pi CPU Temperature
+          - entity: sensor.room_humidity
+            name: Humidity
+      - type: media-control
+        entity: media_player.spotify
+# ===========
+# KITCHEN
+# ===========
+  - title: Kitchen
+    id: kitchen
+# ===========
+# BATHROOM
+# ===========
+  - title: Bathroom
+    id: bath
+# ===========
+# LOFT
+# ===========
+  - title: Loft
+    id: loft
+  

@@ -19,6 +19,11 @@ config:
 discovery:
 conversation:
 history:
+  include:
+    entities:
+      - device_tracker.joba
+      - sensor.room_humidity
+      - sensor.room_temperature
 map:
 sun:
 cloud:
