@@ -1,2 +1,3 @@
 # Smarthome
-Private smarthome project with ESP8266
+Archiv: ESP8266 Project
+Hass.io: Project Files

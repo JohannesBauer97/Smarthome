@@ -6,18 +6,40 @@ homeassistant:
   unit_system: metric
   time_zone: Europe/Berlin
   customize: !include customize.yaml
+  temperature_unit: C
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include sensor.yaml
+logbook: !include logbook.yaml
 
 frontend:
-
 config:
+discovery:
+conversation:
+history:
+map:
+sun:
+cloud:
 
 updater:
+  include_used_components: true
 
-discovery:
+media_player:
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+  
+google:
+  client_id: !secret google_calendar_client_id
+  client_secret: !secret google_calendar_client_secret
 
-conversation:
-
-history:
+device_tracker:
+  - platform: fritz
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: true
 
 history_graph:
   sensors:
@@ -31,62 +53,27 @@ history_graph:
     hours_to_show: 24
     refresh: 60
 
-logbook:
-
-map:
+zone:
+  name: Home
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  radius: 100
+zone 2:
+  name: Work
+  latitude: !secret latitude_work
+  longitude: !secret longitude_work
+  radius: 50
 
 logger:
   default: warning
   logs:
     homeassistant.components.mqtt: debug
 
-sun:
-
 mqtt:
-
-sensor:
-  - platform: yr
-  - platform: mqtt
-    state_topic: "room/humidity"
-    name: "Room Humidity"
-    unit_of_measurement: "%"
-    value_template: "{{ value | round(2) }}"
-    device_class: humidity
-  - platform: mqtt
-    state_topic: "room/temperature"
-    name: "Room Temperature"
-    unit_of_measurement: "°C"
-    value_template: "{{ value | round(2) }}"
-    device_class: temperature
-  - platform: command_line
-    name: "Server CPU Temperatur"
-    command: "cat /sys/devices/virtual/thermal/thermal_zone0/temp"
-    unit_of_measurement: "°C"
-    value_template: "{{ value | multiply(0.001) | round(2) }}"
-    device_class: temperature
-    scan_interval: 60
-  - platform: yweather
-    name: Yahoo
-    monitored_conditions:
-      - weather
-      - weather_current
-      - temperature
-      - pressure
-      - humidity
-      - temp_min
-      - temp_max
-      - wind_speed
-      - visibility
-    scan_interval: 300
+  password: !secret mqtt_password
 
 tts:
   - platform: google
-
-cloud:
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
 
 weather:
   - platform: yweather
