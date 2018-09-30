@@ -81,3 +81,15 @@ tts:
 weather:
   - platform: yweather
     name: Stuttgart Weather
+
+light:
+  platform: mqtt
+  name: 'TV RGB light'
+  state_topic: 'tv/rgb1/light/status'
+  command_topic: 'tv/rgb1/light/switch'
+  brightness_state_topic: 'tv/rgb1/brightness/status'
+  brightness_command_topic: 'tv/rgb1/brightness/set'
+  rgb_state_topic: 'tv/rgb1/rgb/status'
+  rgb_command_topic: 'tv/rgb1/rgb/set'
+  brightness_scale: 100
+  optimistic: false

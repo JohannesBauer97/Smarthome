@@ -111,6 +111,11 @@ views:
             name: Humidity
       - type: media-control
         entity: media_player.spotify
+      - type: entities
+        title: Lights
+        entities:
+          - entity: light.tv_rgb_light
+            name: TV Strip
 # ===========
 # KITCHEN
 # ===========
