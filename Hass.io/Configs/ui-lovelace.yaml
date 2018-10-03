@@ -15,7 +15,7 @@ views:
     cards:
       - type: entity-filter
         entities:
-          - device_tracker.joba
+          - device_tracker.jobasamsung
         state_filter:
           - 'home'
         card:
@@ -44,21 +44,21 @@ views:
         entities:
           - calendar.contacts
           - calendar.facebook_birthdays
-      - type: entities
-        title: Investments
-        entities:
-          - entity: sensor.google
-            name: Google
-          - entity: sensor.amazon
-            name: Amazon
-          - entity: sensor.btc_eur
-            name: BTC -> EUR
-          - entity: sensor.eth_eur
-            name: ETH -> EUR
-            icon: mdi:ethereum
-          - entity: sensor.ltc_eur
-            icon: mdi:litecoin
-            name: LTC -> EUR
+      # - type: entities
+        # title: Investments
+        # entities:
+        #   - entity: sensor.google
+        #     name: Google
+        #   - entity: sensor.amazon
+        #     name: Amazon
+        #   - entity: sensor.btc_eur
+        #     name: BTC -> EUR
+        #   - entity: sensor.eth_eur
+        #     name: ETH -> EUR
+        #     icon: mdi:ethereum
+        #   - entity: sensor.ltc_eur
+        #     icon: mdi:litecoin
+        #     name: LTC -> EUR
 # ===========
 # WEATHER
 # ===========
@@ -126,6 +126,14 @@ views:
 # ===========
   - title: Bathroom
     id: bath
+    cards:
+      - type: entities
+        title: Sensors
+        entities:
+            - entity: sensor.bath_temperature
+              name: Temperature
+            - entity: sensor.bath_humidity
+              name: Humidity
 # ===========
 # LOFT
 # ===========

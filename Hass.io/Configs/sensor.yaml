@@ -6,10 +6,22 @@
     unit_of_measurement: "%"
     value_template: "{{ value | round(2) }}"
     device_class: humidity
+  - platform: mqtt
+    state_topic: "s2/hum"
+    name: "Bath Humidity"
+    unit_of_measurement: "%"
+    value_template: "{{ value | round(2) }}"
+    device_class: humidity
 
   - platform: mqtt
     state_topic: "s1/temp"
     name: "Room Temperature"
+    unit_of_measurement: "°C"
+    value_template: "{{ value | round(2) }}"
+    device_class: temperature
+  - platform: mqtt
+    state_topic: "s2/temp"
+    name: "Bath Temperature"
     unit_of_measurement: "°C"
     value_template: "{{ value | round(2) }}"
     device_class: temperature

@@ -10,12 +10,11 @@
 const char* ssid = ""; // WiFi SSID
 const char* password = ""; // WiFi Password
 const char* homeassistantAddress = ""; // HomeAssistant server address
-const char* tempPath = "s1/temp"; // MQTT path for the temperature
-const char* humPath = "s1/hum"; // MQTT path for the humidity
+const char* tempPath = "s5/temp"; // MQTT path for the temperature
+const char* humPath = "s5/hum"; // MQTT path for the humidity
 const char* mqttUser = "homeassistant"; // MQTT broker username
 const char* mqttPass = ""; // MQTT broker password
 const int mqttPort = 1883; // MQTT broker port at the HomeAssistant server
-const int publishDelay = 5000; // Pause time (ms) between the MQTT publishes
 
 /**
  * CONSTANTS
@@ -44,8 +43,6 @@ void setup() {
 }
 
 void loop() {
-  delay(publishDelay);
-
   if (!mqtt.connected()) {
     if (mqtt.connect() != 0) {
       Serial.println("Lost connection to broker");
@@ -60,4 +57,5 @@ void loop() {
   mqtt_temperature.publish(am2320.readTemperature());
   mqtt_humidity.publish(am2320.readHumidity());
   mqtt.disconnect();
+  ESP.deepSleep(900e6);
 }
