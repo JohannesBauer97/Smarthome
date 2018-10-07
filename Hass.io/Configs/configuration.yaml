@@ -25,6 +25,8 @@ history:
       - sensor.room_temperature
       - sensor.bath_humidity
       - sensor.bath_temperature
+      - sensor.loft_humidity
+      - sensor.loft_temperature
 map:
 sun:
 cloud:

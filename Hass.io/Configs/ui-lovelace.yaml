@@ -22,6 +22,15 @@ views:
           type: glance
           title: People that are home
       - type: entities
+        title: Temperatures
+        entities:
+          - entity: sensor.room_temperature
+            name: Room
+          - entity: sensor.bath_temperature
+            name: Bath
+          - entity: sensor.loft_temperature
+            name: Loft
+      - type: entities
         title: VVS Info
         entities:
           - sensor.lowentorbrucke_stuttgart_to_maybachstrasse_stuttgart
@@ -139,4 +148,12 @@ views:
 # ===========
   - title: Loft
     id: loft
+    cards:
+      - type: entities
+        title: Sensors
+        entities:
+            - entity: sensor.loft_temperature
+              name: Temperature
+            - entity: sensor.loft_humidity
+              name: Humidity
   
