@@ -1,1 +1,19 @@
-[]
+- id: '1538318839159'
+  alias: Nobody Home
+  trigger:
+  - entity_id: group.all_devices
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - data:
+      entity_id: light.tv_rgb_light
+    service: light.turn_off
+- id: '1540570011080'
+  alias: Turn Off Lights
+  trigger:
+  - at: 00:00
+    platform: time
+  condition: []
+  action:
+  - service: light.turn_off
