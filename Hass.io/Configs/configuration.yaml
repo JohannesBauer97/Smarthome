@@ -96,3 +96,12 @@ light:
   rgb_command_topic: 'tv/rgb1/rgb/set'
   brightness_scale: 100
   optimistic: false
+  
+google_assistant:
+  project_id: !secret google_home_projectid
+  api_key: !secret google_home_apikey
+  exposed_domains:
+    - light
+  entity_config:
+    light.tv_rgb_light:
+      name: Raumlicht
