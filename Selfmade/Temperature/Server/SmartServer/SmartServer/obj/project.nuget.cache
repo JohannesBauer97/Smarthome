@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Qo0ORRazac2LtuYcMAAHNTYX9yYVR5Ofa4qftZZgL3zf4YnSvAc20xWfFV99DITR/B+ZG2dSKUWcgJFKlw2/bA==",
+  "success": true,
+  "projectFilePath": "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\SmartServer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\w4ter\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.8\\microsoft.visualstudio.azure.containers.tools.targets.1.10.8.nupkg.sha512"
+  ],
+  "logs": []
+}
