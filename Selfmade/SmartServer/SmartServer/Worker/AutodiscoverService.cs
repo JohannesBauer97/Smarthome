@@ -26,14 +26,17 @@ namespace SmartServer.Worker
     }
     public Task StartAsync(CancellationToken cancellationToken)
     {
-      Task.Run(DoWork);
+      Task.Run(DoWork, cancellationToken);
       return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-      _udpClient.Close();
-      _udpClient = null;
+      Task.Run(() =>
+      {
+        _udpClient.Close();
+        _udpClient = null;
+      }, cancellationToken);
       return Task.CompletedTask;
     }
 
@@ -45,10 +48,7 @@ namespace SmartServer.Worker
 
     private void DoWork()
     {
-      if (_udpClient == null)
-      {
-        _udpClient = new UdpClient(Constants.AUTODISCOVER_PORT);
-      }
+      _udpClient ??= new UdpClient(Constants.AUTODISCOVER_PORT);
       try
       {
         while (true)

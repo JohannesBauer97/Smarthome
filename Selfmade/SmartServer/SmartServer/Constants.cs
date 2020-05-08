@@ -8,5 +8,6 @@ namespace SmartServer
   public static class Constants
   {
     public static int AUTODISCOVER_PORT = 7352;
+    public static string MQTT_CLIENT_NAME = "SmartServer";
   }
 }

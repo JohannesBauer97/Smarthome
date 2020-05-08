@@ -5,12 +5,15 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
 #include <WiFiUdp.h>
+#include <PubSubClient.h>
 const int FW_VERSION = 1;
 const char* FW_VERSION_URL = "http://esp.serverlein.de/temperature/version";
 const char* FW_IMAGE_URL = "http://esp.serverlein.de/temperature/img.bin";
 const unsigned int UDP_PORT = 7352;
 char mqttBroker[50];
 WiFiUDP udp;
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 void setup() {
   Serial.begin(115200);
@@ -22,6 +25,9 @@ void setup() {
 
 void loop() {
   scanMqttBroker();
+  handleMqttBrokerConnection();
+
+  client.publish("/home/data", "Hello World");
 }
 
 void checkForUpdates() {
@@ -62,11 +68,34 @@ void scanMqttBroker(){
   }
   if(udp.parsePacket() > 0){
     udp.read(mqttBroker, 50);
-    Serial.println(mqttBroker);
   } else {
     udp.beginPacket("255.255.255.255", UDP_PORT);
     udp.write("autodiscover");
     udp.endPacket();
     delay(1000);
   } 
+}
+
+void handleMqttBrokerConnection(){
+  if(strlen(mqttBroker) == 0){
+    return;
+  }
+
+  client.setServer(mqttBroker, 1883);
+  while (!client.connected()) {
+    uint32_t chipid=ESP.getChipId();
+    char clientid[25];
+    snprintf(clientid,25,"ESP-%08X",chipid);
+    Serial.print("Connecting to MQTT broker ");
+    Serial.print(mqttBroker);
+    Serial.print(" as ");
+    Serial.println(clientid);
+    if (!client.connect(clientid)) {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" retrying in 5 seconds");
+      delay(5000);
+    }
+  }
+  client.loop();
 }

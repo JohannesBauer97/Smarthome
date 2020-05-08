@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\SmartServer.csproj": {}
+    "C:\\Projekte\\Smarthome\\Selfmade\\SmartServer\\SmartServer\\SmartServer.csproj": {}
   },
   "projects": {
-    "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\SmartServer.csproj": {
+    "C:\\Projekte\\Smarthome\\Selfmade\\SmartServer\\SmartServer\\SmartServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\SmartServer.csproj",
+        "projectUniqueName": "C:\\Projekte\\Smarthome\\Selfmade\\SmartServer\\SmartServer\\SmartServer.csproj",
         "projectName": "SmartServer",
-        "projectPath": "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\SmartServer.csproj",
+        "projectPath": "C:\\Projekte\\Smarthome\\Selfmade\\SmartServer\\SmartServer\\SmartServer.csproj",
         "packagesPath": "C:\\Users\\w4ter\\.nuget\\packages\\",
-        "outputPath": "C:\\Projekte\\Smarthome\\Selfmade\\Temperature\\Server\\SmartServer\\SmartServer\\obj\\",
+        "outputPath": "C:\\Projekte\\Smarthome\\Selfmade\\SmartServer\\SmartServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,9 +41,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "M2Mqtt": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.10.8, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.2, )"
             }
           },
           "imports": [

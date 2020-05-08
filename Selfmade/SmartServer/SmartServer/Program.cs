@@ -20,7 +20,11 @@ namespace SmartServer
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
       Host.CreateDefaultBuilder(args)
-        .ConfigureServices(services => { services.AddHostedService<AutodiscoverService>(); })
+        .ConfigureServices(services =>
+        {
+          services.AddHostedService<AutodiscoverService>();
+          services.AddHostedService<MqttService>();
+        })
         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
   }
 }
