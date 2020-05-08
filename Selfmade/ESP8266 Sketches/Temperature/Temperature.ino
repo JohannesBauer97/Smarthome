@@ -14,12 +14,10 @@ WiFiUDP udp;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Setup running...");
   WiFiManager wifiManager;
   wifiManager.autoConnect();
   checkForUpdates();
   udp.begin(UDP_PORT);
-  Serial.println("Setup finished...");
 }
 
 void loop() {
@@ -69,5 +67,6 @@ void scanMqttBroker(){
     udp.beginPacket("255.255.255.255", UDP_PORT);
     udp.write("autodiscover");
     udp.endPacket();
+    delay(1000);
   } 
 }
