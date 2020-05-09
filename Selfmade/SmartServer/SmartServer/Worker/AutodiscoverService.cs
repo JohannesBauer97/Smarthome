@@ -55,19 +55,31 @@ namespace SmartServer.Worker
         {
           byte[] bytes = _udpClient.Receive(ref _ipEndPoint);
           string msg = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-          if (msg == "autodiscover")
+          if (msg.StartsWith("autodiscover"))
           {
+            string[] discoverData = msg.Split(':');
+            if (discoverData.Length < 3)
+            {
+              return;
+            }
+
             _logger.LogInformation("Got autodiscover message from {0}", _ipEndPoint.Address);
-            var address = _configuration.GetValue<string>("BrokerAddress");
-            if (address != null)
+
+            string type = discoverData[1];
+            string chipId = discoverData[2];
+            byte[] responseMsg;
+
+            switch (discoverData[1])
             {
-              byte[] brokerData = Encoding.ASCII.GetBytes(address);
-              _udpClient.Send(brokerData, brokerData.Length, _ipEndPoint);
+              case "temperature":
+                responseMsg = CreateTemperatureAutodiscoverResponse(chipId);
+                break;
+              default:
+                _logger.LogWarning("Unknown type in autodiscover message: {0}", type);
+                return;
             }
-            else
-            {
-              _logger.LogError("BrokerAddress not configured");
-            }
+
+            _udpClient.Send(responseMsg, responseMsg.Length, _ipEndPoint);
           }
         }
       }
@@ -75,10 +87,24 @@ namespace SmartServer.Worker
       {
         _logger.LogError(socketException.Message);
       }
+      catch (Exception exception)
+      {
+        _logger.LogError(exception.Message);
+      }
       finally
       {
         _udpClient.Close();
       }
+    }
+
+    private byte[] CreateTemperatureAutodiscoverResponse(string chipId)
+    {
+      var address = _configuration.GetValue<string>("BrokerAddress");
+      if (String.IsNullOrEmpty(address))
+      {
+        throw new Exception("BrokerAddress is not configured.");
+      }
+      return Encoding.ASCII.GetBytes(address);
     }
   }
 

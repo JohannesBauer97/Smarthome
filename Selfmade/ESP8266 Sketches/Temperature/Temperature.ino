@@ -14,9 +14,11 @@ char mqttBroker[50];
 WiFiUDP udp;
 WiFiClient espClient;
 PubSubClient client(espClient);
+String chipId;
 
 void setup() {
   Serial.begin(115200);
+  chipId = "ESP" + String(ESP.getChipId());
   WiFiManager wifiManager;
   wifiManager.autoConnect();
   checkForUpdates();
@@ -27,7 +29,8 @@ void loop() {
   scanMqttBroker();
   handleMqttBrokerConnection();
 
-  client.publish("/home/data", "Hello World");
+  String publishTemperatureDataTopic = "/iot/temperature/" + chipId;
+  client.publish(publishTemperatureDataTopic.c_str(), "Hello World");
 }
 
 void checkForUpdates() {
@@ -70,7 +73,8 @@ void scanMqttBroker(){
     udp.read(mqttBroker, 50);
   } else {
     udp.beginPacket("255.255.255.255", UDP_PORT);
-    udp.write("autodiscover");
+    String discoverMsg = "autodiscover:temperature:" + String(chipId);
+    udp.write(discoverMsg.c_str());
     udp.endPacket();
     delay(1000);
   } 
@@ -83,14 +87,11 @@ void handleMqttBrokerConnection(){
 
   client.setServer(mqttBroker, 1883);
   while (!client.connected()) {
-    uint32_t chipid=ESP.getChipId();
-    char clientid[25];
-    snprintf(clientid,25,"ESP-%08X",chipid);
     Serial.print("Connecting to MQTT broker ");
     Serial.print(mqttBroker);
     Serial.print(" as ");
-    Serial.println(clientid);
-    if (!client.connect(clientid)) {
+    Serial.println(chipId.c_str());
+    if (!client.connect(chipId.c_str())) {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" retrying in 5 seconds");
