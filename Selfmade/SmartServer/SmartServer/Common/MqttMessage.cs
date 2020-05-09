@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SmartServer.Models
+namespace SmartServer.Common
 {
   public class MqttMessage
   {

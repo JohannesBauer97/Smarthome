@@ -15,6 +15,7 @@ WiFiUDP udp;
 WiFiClient espClient;
 PubSubClient client(espClient);
 String chipId;
+int mqttReconnectCounter = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -92,9 +93,13 @@ void handleMqttBrokerConnection(){
     Serial.print(" as ");
     Serial.println(chipId.c_str());
     if (!client.connect(chipId.c_str())) {
+      if(mqttReconnectCounter >= 4){
+        ESP.restart();
+      }
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" retrying in 5 seconds");
+      mqttReconnectCounter++;
       delay(5000);
     }
   }

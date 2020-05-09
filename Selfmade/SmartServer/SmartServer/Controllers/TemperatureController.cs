@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmartServer.Repositories.Abstraction;
 
 namespace SmartServer.Controllers
 {
@@ -14,9 +8,13 @@ namespace SmartServer.Controllers
   [ApiController]
   public class TemperatureController : ControllerBase
   {
+    private readonly ILogger<TemperatureController> _logger;
+    private readonly ITemperatureRepository _temperatureRepository;
 
-    public TemperatureController()
+    public TemperatureController(ILogger<TemperatureController> logger, ITemperatureRepository temperatureRepository)
     {
+      _logger = logger;
+      _temperatureRepository = temperatureRepository;
     }
 
     [HttpGet]
@@ -24,6 +22,5 @@ namespace SmartServer.Controllers
     {
       return "";
     }
-
   }
 }
