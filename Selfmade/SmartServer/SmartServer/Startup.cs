@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using SmartServer.Worker;
 
 namespace SmartServer
@@ -17,6 +19,17 @@ namespace SmartServer
   {
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddSwaggerGen(c =>
+      {
+        c.SwaggerDoc(Constants.VERSION.ToString(), new OpenApiInfo
+        {
+          Title = "SmartServer",
+          Version = Constants.VERSION.ToString(),
+          Description = "Made with <3 by Johannes Bauer"
+        });
+        c.IncludeXmlComments($"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+      });
+
       services.AddControllers();
       services.AddHostedService<AutodiscoverService>();
     }
@@ -27,9 +40,14 @@ namespace SmartServer
       {
         app.UseDeveloperExceptionPage();
       }
-
+      app.UseSwagger();
+      app.UseSwaggerUI(c =>
+      {
+        c.RoutePrefix = "swagger";
+        c.SwaggerEndpoint($"/swagger/{Constants.VERSION.ToString()}/swagger.json",
+          $"SmartServer v{Constants.VERSION.ToString()}");
+      });
       app.UseRouting();
-      app.UseAuthorization();
       app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
   }
