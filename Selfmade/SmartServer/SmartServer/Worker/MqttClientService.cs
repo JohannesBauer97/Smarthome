@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
+using MQTTnet.Adapter;
 using MQTTnet.Client;
+using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using SmartServer.Common;
@@ -13,10 +15,11 @@ using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
 {
-  public class MqttClientService : IHostedService, IMqttClientService
+  public class MqttClientService: IMqttClientService, IDisposable
   {
     private readonly ILogger<MqttClientService> _logger;
     private readonly IMqttClient _mqttClient;
+    public bool IsReady { get; private set; }
 
     public MqttClientService(ILogger<MqttClientService> logger)
     {
@@ -25,28 +28,37 @@ namespace SmartServer.Worker
       _mqttClient.UseApplicationMessageReceivedHandler(IncomingMessageHandler);
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync()
     {
       _logger.LogInformation("Starting MqttClientService");
       var optionsBuilder = new MqttClientOptionsBuilder().WithClientId(Constants.MQTT_CLIENT_NAME)
-        .WithTcpServer("localhost");
-      return _mqttClient.ConnectAsync(optionsBuilder.Build(), cancellationToken);
-    }
+        .WithTcpServer("127.0.0.1");
+      var authResult = await _mqttClient.ConnectAsync(optionsBuilder.Build());
+      if (authResult.ResultCode != MqttClientConnectResultCode.Success)
+        throw new MqttConnectingFailedException(authResult);
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-      _logger.LogInformation("Stopping MqttClientService");
-      return _mqttClient.DisconnectAsync(new MqttClientDisconnectOptions(), cancellationToken);
+      IsReady = true;
     }
 
     public void SubscribeToSmartTemperatureClient(SmartTemperatureClient smartTemperatureClient)
     {
-      _mqttClient.SubscribeAsync("/iot/temperature/" + smartTemperatureClient.ChipId);
+      var foo = "/iot/temperature/" + smartTemperatureClient.ChipId;
+      var bar = _mqttClient.SubscribeAsync(foo);
+      var lol = bar.Result;
     }
 
-    private void IncomingMessageHandler(MqttApplicationMessageReceivedEventArgs arg)
+    private Task IncomingMessageHandler(MqttApplicationMessageReceivedEventArgs arg)
     {
-      _logger.LogInformation("Incoming Message: {0} --- {1}", arg.ApplicationMessage.Topic, Encoding.ASCII.GetString(arg.ApplicationMessage.Payload));
+      _logger.LogInformation("Incoming Message: {0} --- {1}", arg.ApplicationMessage.Topic,
+        Encoding.ASCII.GetString(arg.ApplicationMessage.Payload));
+      return Task.CompletedTask;
+    }
+
+    public async void Dispose()
+    {
+      _logger.LogInformation("Stopping MqttClientService");
+      await _mqttClient.DisconnectAsync(new MqttClientDisconnectOptions());
+      IsReady = false;
     }
   }
 }

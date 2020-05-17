@@ -31,21 +31,17 @@ namespace SmartServer.Worker
 
     public HashSet<SmartClient> SmartClients { get; } = new HashSet<SmartClient>(new SmartClientComparer());
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
       _logger.LogInformation("Starting AutodiscoverService");
-      Task.Run(DoWork, cancellationToken);
-      return Task.CompletedTask;
+      await _mqttClientService.StartAsync();
+      await Task.Run(DoWork, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
       _logger.LogInformation("Stopping AutodiscoverService");
-      Task.Run(() =>
-      {
-        _udpClient.Close();
-        _udpClient = null;
-      }, cancellationToken);
+      Task.Run(() => _udpClient.Close(), cancellationToken);
       return Task.CompletedTask;
     }
 
@@ -56,6 +52,9 @@ namespace SmartServer.Worker
       {
         while (true)
         {
+          if (!_mqttClientService.IsReady)
+            continue;
+
           var bytes = _udpClient.Receive(ref _ipEndPoint);
           var msg = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
           if (msg.StartsWith("autodiscover"))
@@ -89,10 +88,6 @@ namespace SmartServer.Worker
       catch (SocketException socketException)
       {
         _logger.LogError(socketException.Message);
-      }
-      catch (Exception exception)
-      {
-        _logger.LogError(exception.Message);
       }
       finally
       {

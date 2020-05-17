@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Server;
+using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
 {
@@ -17,23 +18,19 @@ namespace SmartServer.Worker
     {
       _logger = logger;
       _mqttServer = new MqttFactory().CreateMqttServer();
-      _mqttServer.UseApplicationMessageReceivedHandler(args =>
-      {
-        _logger.LogInformation(args.ApplicationMessage.Topic);
-      });
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
       _logger.LogInformation("Starting MqttBrokerService");
       var optionsBuilder = new MqttServerOptionsBuilder().WithDefaultEndpoint();
-      return _mqttServer.StartAsync(optionsBuilder.Build());
+      await _mqttServer.StartAsync(optionsBuilder.Build());
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public async Task StopAsync(CancellationToken cancellationToken)
     {
       _logger.LogInformation("Stopping MqttBrokerService");
-      return _mqttServer.StopAsync();
+      await _mqttServer.StopAsync();
     }
   }
 }
