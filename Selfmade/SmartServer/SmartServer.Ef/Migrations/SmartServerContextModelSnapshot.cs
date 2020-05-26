@@ -18,14 +18,13 @@ namespace SmartServer.Ef.Migrations
 
             modelBuilder.Entity("SmartServer.Ef.Models.StoredSmartTemperatureClient", b =>
                 {
-                    b.Property<Guid>("DbId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("ChipId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Discovered")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("DbId");
+                    b.HasKey("ChipId");
 
                     b.ToTable("SmartTemperatureClients");
                 });

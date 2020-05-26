@@ -13,6 +13,7 @@ using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using SmartServer.Common;
 using SmartServer.Common.Models;
+using SmartServer.Ef.Abstraction;
 using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
@@ -20,11 +21,13 @@ namespace SmartServer.Worker
   public class MqttClientService: IMqttClientService, IDisposable
   {
     private readonly ILogger<MqttClientService> _logger;
+    private readonly ITemperatureDataSource _temperatureDataSource;
     private IMqttClient _mqttClient;
 
-    public MqttClientService(ILogger<MqttClientService> logger)
+    public MqttClientService(ILogger<MqttClientService> logger, ITemperatureDataSource temperatureDataSource)
     {
       _logger = logger;
+      _temperatureDataSource = temperatureDataSource;
     }
 
     public async Task StartAsync()
@@ -36,14 +39,14 @@ namespace SmartServer.Worker
         .WithClientId(Constants.MQTT_CLIENT_NAME)
         .WithTcpServer("127.0.0.1", 1883)
         .Build();
-      await _mqttClient.ConnectAsync(options);
       _mqttClient.UseApplicationMessageReceivedHandler(IncomingMessageHandler);
+      await _mqttClient.ConnectAsync(options);
+      await ReSubscribeToClientsFromDb();
     }
 
     public void SubscribeToSmartTemperatureClient(SmartTemperatureClient smartTemperatureClient)
     {
-      var foo = "/iot/temperature/" + smartTemperatureClient.ChipId;
-      var bar = _mqttClient.SubscribeAsync(foo);
+      _mqttClient.SubscribeAsync("/iot/temperature/" + smartTemperatureClient.ChipId);
     }
 
     private Task IncomingMessageHandler(MqttApplicationMessageReceivedEventArgs arg)
@@ -51,6 +54,23 @@ namespace SmartServer.Worker
       _logger.LogTrace("Incoming Message: {0} --- {1}", arg.ApplicationMessage.Topic,
         Encoding.ASCII.GetString(arg.ApplicationMessage.Payload));
       return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// This method should be called once at app startup.
+    /// It will subscribe to the clients saved in the db.
+    /// </summary>
+    /// <returns></returns>
+    private Task ReSubscribeToClientsFromDb()
+    {
+      return Task.Run(() =>
+      {
+        var temperatureClients = _temperatureDataSource.GetSmartTemperatureClients();
+        foreach (var smartTemperatureClient in temperatureClients)
+        {
+          SubscribeToSmartTemperatureClient(smartTemperatureClient);
+        }
+      });
     }
 
     public async void Dispose()

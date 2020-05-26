@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartServer.Common;
 using SmartServer.Common.Models;
+using SmartServer.Ef.Abstraction;
 using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
@@ -19,15 +20,17 @@ namespace SmartServer.Worker
     private readonly IConfiguration _configuration;
     private readonly ILogger<AutodiscoverService> _logger;
     private readonly IMqttClientService _mqttClientService;
+    private readonly ITemperatureDataSource _temperatureDataSource;
     private IPEndPoint _ipEndPoint = new IPEndPoint(IPAddress.Broadcast, Constants.AUTODISCOVER_PORT);
     private UdpClient _udpClient = new UdpClient(Constants.AUTODISCOVER_PORT);
 
     public AutodiscoverService(ILogger<AutodiscoverService> logger, IConfiguration configuration,
-      IMqttClientService mqttClientService)
+      IMqttClientService mqttClientService, ITemperatureDataSource temperatureDataSource)
     {
       _logger = logger;
       _configuration = configuration;
       _mqttClientService = mqttClientService;
+      _temperatureDataSource = temperatureDataSource;
     }
 
     public async Task StartAsync()
@@ -63,6 +66,7 @@ namespace SmartServer.Worker
               case "temperature":
                 responseMsg = CreateTemperatureAutodiscoverResponse(chipId);
                 var tempClient = new SmartTemperatureClient(chipId);
+                _temperatureDataSource.AddOrUpdateSmartTemperatureClient(tempClient);
                 _mqttClientService.SubscribeToSmartTemperatureClient(tempClient);
                 break;
               default:

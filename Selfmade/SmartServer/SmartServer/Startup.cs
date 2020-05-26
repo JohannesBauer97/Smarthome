@@ -34,7 +34,7 @@ namespace SmartServer
       services.AddSingleton<IMqttClientService, MqttClientService>();
       services.AddSingleton<IAutodiscoverService, AutodiscoverService>();
       services.AddScoped<ITemperatureRepository, TemperatureRepository>();
-      services.AddScoped<ITemperatureDataSource, TemperatureDataSource>();
+      services.AddSingleton<ITemperatureDataSource, TemperatureDataSource>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -9,11 +9,8 @@ namespace SmartServer.Ef.Models
   {
     public StoredSmartClient() { }
 
-    [Required]
-    public string ChipId { get; }
-
     [Key]
-    public Guid DbId { get; set; }
+    public string ChipId { get; set; }
 
     public DateTime Discovered { get; set; }
   }

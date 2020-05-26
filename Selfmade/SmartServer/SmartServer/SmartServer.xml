@@ -4,5 +4,12 @@
         <name>SmartServer</name>
     </assembly>
     <members>
+        <member name="M:SmartServer.Worker.MqttClientService.ReSubscribeToClientsFromDb">
+            <summary>
+            This method should be called once at app startup.
+            It will subscribe to the clients saved in the db.
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

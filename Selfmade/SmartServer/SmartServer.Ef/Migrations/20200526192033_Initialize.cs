@@ -11,12 +11,12 @@ namespace SmartServer.Ef.Migrations
                 name: "SmartTemperatureClients",
                 columns: table => new
                 {
-                    DbId = table.Column<Guid>(nullable: false),
+                    ChipId = table.Column<string>(nullable: false),
                     Discovered = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SmartTemperatureClients", x => x.DbId);
+                    table.PrimaryKey("PK_SmartTemperatureClients", x => x.ChipId);
                 });
         }
 

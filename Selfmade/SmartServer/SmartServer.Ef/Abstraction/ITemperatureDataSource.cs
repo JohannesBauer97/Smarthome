@@ -10,5 +10,6 @@ namespace SmartServer.Ef.Abstraction
     public List<SmartTemperatureClient> GetSmartTemperatureClients();
     public SmartTemperatureClient GetSmartTemperatureClientByChipId(string chipId);
     public SmartTemperatureClient AddOrUpdateSmartTemperatureClient(SmartTemperatureClient client);
+    public bool DeleteSmartTemperatureClient(string chipId);
   }
 }
