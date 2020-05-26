@@ -1,9 +1,14 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SmartServer.Ef;
+using SmartServer.Ef.Abstraction;
+using SmartServer.Repositories;
+using SmartServer.Repositories.Abstraction;
 using SmartServer.Worker;
 using SmartServer.Worker.Abstraction;
 
@@ -23,11 +28,13 @@ namespace SmartServer
         });
         c.IncludeXmlComments($"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
       });
-
+      services.AddDbContext<SmartServerContext>(opt => opt.UseSqlite(Constants.SQLITE_CONNECTION_STRING), ServiceLifetime.Transient);
       services.AddControllers();
       services.AddHostedService<MqttBrokerService>();
       services.AddSingleton<IMqttClientService, MqttClientService>();
       services.AddSingleton<IAutodiscoverService, AutodiscoverService>();
+      services.AddScoped<ITemperatureRepository, TemperatureRepository>();
+      services.AddScoped<ITemperatureDataSource, TemperatureDataSource>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -43,6 +50,11 @@ namespace SmartServer
       });
       app.UseRouting();
       app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+      using (var servicesScope = app.ApplicationServices.CreateScope())
+      { 
+        var dbContext = servicesScope.ServiceProvider.GetService<SmartServerContext>();
+        dbContext.Database.Migrate();
+      }
     }
   }
 }

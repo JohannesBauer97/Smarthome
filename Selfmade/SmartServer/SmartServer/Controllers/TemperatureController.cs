@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmartServer.Common.Models;
 using SmartServer.Repositories.Abstraction;
 
 namespace SmartServer.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/temperature")]
   [ApiController]
   public class TemperatureController : ControllerBase
   {
@@ -17,10 +19,10 @@ namespace SmartServer.Controllers
       _temperatureRepository = temperatureRepository;
     }
 
-    [HttpGet]
-    public string Get()
+    [HttpGet("devices")]
+    public List<SmartTemperatureClient> Get()
     {
-      return "";
+      return _temperatureRepository.GetAllDevices();
     }
   }
 }

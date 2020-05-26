@@ -12,6 +12,7 @@ using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using SmartServer.Common;
+using SmartServer.Common.Models;
 using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
@@ -47,7 +48,7 @@ namespace SmartServer.Worker
 
     private Task IncomingMessageHandler(MqttApplicationMessageReceivedEventArgs arg)
     {
-      _logger.LogInformation("Incoming Message: {0} --- {1}", arg.ApplicationMessage.Topic,
+      _logger.LogTrace("Incoming Message: {0} --- {1}", arg.ApplicationMessage.Topic,
         Encoding.ASCII.GetString(arg.ApplicationMessage.Payload));
       return Task.CompletedTask;
     }

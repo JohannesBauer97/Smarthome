@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmartServer.Common
+namespace SmartServer.Common.Models
 {
   public abstract class SmartClient
   {

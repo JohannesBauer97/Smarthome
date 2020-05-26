@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartServer.Common;
+using SmartServer.Common.Models;
 using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker

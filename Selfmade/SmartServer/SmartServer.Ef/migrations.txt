@@ -1,0 +1,2 @@
+﻿# In folder: SmartServer.Ef
+Add-Migration Initialize -o "Migrations"

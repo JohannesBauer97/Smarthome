@@ -1,4 +1,4 @@
-﻿namespace SmartServer.Common
+﻿namespace SmartServer.Common.Models
 {
   public class SmartTemperatureClient : SmartClient
   {

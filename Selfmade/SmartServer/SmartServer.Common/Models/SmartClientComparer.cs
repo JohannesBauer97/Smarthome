@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartServer.Common
+namespace SmartServer.Common.Models
 {
   public class SmartClientComparer : IEqualityComparer<SmartClient>
   {
