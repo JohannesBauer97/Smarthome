@@ -29,14 +29,6 @@ namespace SmartServer.Worker
       _logger.LogInformation("Starting MqttBrokerService");
       var optionsBuilder = new MqttServerOptionsBuilder().WithDefaultEndpoint();
       await _mqttServer.StartAsync(optionsBuilder.Build());
-      _mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandlerDelegate(args =>
-      {
-        _logger.LogInformation("connected " + args.ClientId);
-      });
-      _mqttServer.UseClientConnectedHandler(args =>
-      {
-        _logger.LogInformation("connected " + args.ClientId);
-      });
       await _mqttClientService.StartAsync();
       await _autodiscoverService.StartAsync();
     }
