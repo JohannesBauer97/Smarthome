@@ -26,7 +26,6 @@ namespace SmartServer
 
       services.AddControllers();
       services.AddHostedService<MqttBrokerService>();
-      services.AddHostedService<AutodiscoverService>();
       services.AddSingleton<IMqttClientService, MqttClientService>();
       services.AddSingleton<IAutodiscoverService, AutodiscoverService>();
     }

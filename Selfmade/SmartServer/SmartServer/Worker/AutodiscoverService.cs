@@ -13,7 +13,7 @@ using SmartServer.Worker.Abstraction;
 
 namespace SmartServer.Worker
 {
-  public class AutodiscoverService : IHostedService, IAutodiscoverService
+  public class AutodiscoverService : IAutodiscoverService, IDisposable
   {
     private readonly IConfiguration _configuration;
     private readonly ILogger<AutodiscoverService> _logger;
@@ -29,20 +29,11 @@ namespace SmartServer.Worker
       _mqttClientService = mqttClientService;
     }
 
-    public HashSet<SmartClient> SmartClients { get; } = new HashSet<SmartClient>(new SmartClientComparer());
-
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync()
     {
       _logger.LogInformation("Starting AutodiscoverService");
       await _mqttClientService.StartAsync();
-      await Task.Run(DoWork, cancellationToken);
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-      _logger.LogInformation("Stopping AutodiscoverService");
-      Task.Run(() => _udpClient.Close(), cancellationToken);
-      return Task.CompletedTask;
+      _ = Task.Run(DoWork);
     }
 
     private void DoWork()
@@ -52,8 +43,6 @@ namespace SmartServer.Worker
       {
         while (true)
         {
-          if (!_mqttClientService.IsReady)
-            continue;
 
           var bytes = _udpClient.Receive(ref _ipEndPoint);
           var msg = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
@@ -73,7 +62,6 @@ namespace SmartServer.Worker
               case "temperature":
                 responseMsg = CreateTemperatureAutodiscoverResponse(chipId);
                 var tempClient = new SmartTemperatureClient(chipId);
-                SmartClients.Add(tempClient);
                 _mqttClientService.SubscribeToSmartTemperatureClient(tempClient);
                 break;
               default:
@@ -101,6 +89,12 @@ namespace SmartServer.Worker
       if (string.IsNullOrEmpty(address)) throw new Exception("BrokerAddress is not configured.");
 
       return Encoding.ASCII.GetBytes(address);
+    }
+
+    public void Dispose()
+    {
+      _logger.LogInformation("Stopping AutodiscoverService");
+      _udpClient?.Close();
     }
   }
 }
