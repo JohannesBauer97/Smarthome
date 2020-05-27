@@ -50,7 +50,7 @@ namespace SmartServer.Worker
             var discoverData = msg.Split(':');
             if (discoverData.Length < 3) return;
 
-            _logger.LogInformation("Got autodiscover message from {0}", _ipEndPoint.Address);
+            _logger.LogDebug("Got autodiscover message from {0}", _ipEndPoint.Address);
 
             var type = discoverData[1];
             var chipId = discoverData[2];

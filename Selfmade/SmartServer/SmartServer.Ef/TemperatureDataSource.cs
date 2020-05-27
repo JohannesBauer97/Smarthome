@@ -59,7 +59,7 @@ namespace SmartServer.Ef
         {
           return null;
         }
-
+        _logger.LogDebug("Updated/Added SmartTemperatureClient {0} with tmp: {1} hum:{2}", client.ChipId, client.Temperature, client.Humidity);
         return db.SmartTemperatureClients.FirstOrDefault(c => c.ChipId == client.ChipId).ConvertToSmartClient();
       }
     }
