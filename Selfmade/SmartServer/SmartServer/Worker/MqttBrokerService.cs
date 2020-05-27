@@ -40,6 +40,8 @@ namespace SmartServer.Worker
       await _mqttServer.StartAsync(optionsBuilder.Build());
       await _mqttTemperatureClientService.StartAsync();
       await _autodiscoverService.StartAsync();
+      _mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandlerDelegate(args => _logger.LogDebug("Client {0} connected.", args.ClientId));
+      _mqttServer.ClientDisconnectedHandler = new MqttServerClientDisconnectedHandlerDelegate(args => _logger.LogDebug("Client {0} disconnected ({1}).", args.ClientId, args.DisconnectType));
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)

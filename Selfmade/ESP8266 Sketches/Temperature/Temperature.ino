@@ -6,7 +6,8 @@
 #include <ESP8266httpUpdate.h>
 #include <WiFiUdp.h>
 #include <PubSubClient.h>
-const int FW_VERSION = 1;
+#include <Adafruit_AM2320.h>
+const int FW_VERSION = 2;
 const char* FW_VERSION_URL = "http://esp.serverlein.de/temperature/version";
 const char* FW_IMAGE_URL = "http://esp.serverlein.de/temperature/img.bin";
 const unsigned int UDP_PORT = 7352;
@@ -16,6 +17,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 String chipId;
 int mqttReconnectCounter = 0;
+Adafruit_AM2320 am2320 = Adafruit_AM2320();
 
 void setup() {
   Serial.begin(115200);
@@ -24,6 +26,7 @@ void setup() {
   wifiManager.autoConnect();
   checkForUpdates();
   udp.begin(UDP_PORT);
+  am2320.begin();
 }
 
 void loop() {
@@ -31,12 +34,17 @@ void loop() {
   handleMqttBrokerConnection();
 
   if(client.connected()){
+    Serial.print("Temp: "); Serial.println(am2320.readTemperature());
+    Serial.print("Hum: "); Serial.println(am2320.readHumidity());
+    
     String publishTemperatureDataTopic = "/iot/temperature/" + chipId;
-    client.publish(publishTemperatureDataTopic.c_str(), "23.34;21.12");
+    String publishValues = String(am2320.readTemperature()) + ";" + String(am2320.readHumidity());
+    client.publish(publishTemperatureDataTopic.c_str(), publishValues.c_str());
     Serial.println("MQTT message was published");
+    delay(1000);
+    ESP.deepSleep(30e6); 
   }
-  
-  delay(5000);
+
 }
 
 void checkForUpdates() {

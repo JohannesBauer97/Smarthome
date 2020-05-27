@@ -73,6 +73,12 @@ namespace SmartServer.Worker
       {
         return;
       }
+
+      if (double.IsNaN(newHumidity) || double.IsNaN(newTemperature))
+      {
+        _logger.LogWarning("Temperature/Humidity Chip {0} is pushing NaN values.", chipId);
+        return;
+      }
       SmartTemperatureClient client = _temperatureDataSource.GetSmartTemperatureClientByChipId(chipId);
       if (client == null)
       {
