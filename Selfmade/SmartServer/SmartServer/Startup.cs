@@ -31,7 +31,7 @@ namespace SmartServer
       services.AddDbContext<SmartServerContext>(opt => opt.UseSqlite(Constants.SQLITE_CONNECTION_STRING), ServiceLifetime.Transient);
       services.AddControllers();
       services.AddHostedService<MqttBrokerService>();
-      services.AddSingleton<IMqttClientService, MqttClientService>();
+      services.AddSingleton<IMqttTemperatureClientService, MqttTemperatureTemperatureClientService>();
       services.AddSingleton<IAutodiscoverService, AutodiscoverService>();
       services.AddScoped<ITemperatureRepository, TemperatureRepository>();
       services.AddSingleton<ITemperatureDataSource, TemperatureDataSource>();
@@ -50,11 +50,7 @@ namespace SmartServer
       });
       app.UseRouting();
       app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-      using (var servicesScope = app.ApplicationServices.CreateScope())
-      { 
-        var dbContext = servicesScope.ServiceProvider.GetService<SmartServerContext>();
-        dbContext.Database.Migrate();
-      }
+
     }
   }
 }

@@ -4,9 +4,8 @@ using SmartServer.Common.Models;
 
 namespace SmartServer.Worker.Abstraction
 {
-  public interface IMqttClientService
+  public interface IMqttTemperatureClientService
   {
-    public void SubscribeToSmartTemperatureClient(SmartTemperatureClient smartTemperatureClient);
     public Task StartAsync();
   }
 }

@@ -19,25 +19,20 @@ namespace SmartServer.Worker
   {
     private readonly IConfiguration _configuration;
     private readonly ILogger<AutodiscoverService> _logger;
-    private readonly IMqttClientService _mqttClientService;
-    private readonly ITemperatureDataSource _temperatureDataSource;
     private IPEndPoint _ipEndPoint = new IPEndPoint(IPAddress.Broadcast, Constants.AUTODISCOVER_PORT);
     private UdpClient _udpClient = new UdpClient(Constants.AUTODISCOVER_PORT);
 
-    public AutodiscoverService(ILogger<AutodiscoverService> logger, IConfiguration configuration,
-      IMqttClientService mqttClientService, ITemperatureDataSource temperatureDataSource)
+    public AutodiscoverService(ILogger<AutodiscoverService> logger, IConfiguration configuration)
     {
       _logger = logger;
       _configuration = configuration;
-      _mqttClientService = mqttClientService;
-      _temperatureDataSource = temperatureDataSource;
     }
 
-    public async Task StartAsync()
+    public Task StartAsync()
     {
       _logger.LogInformation("Starting AutodiscoverService");
-      await _mqttClientService.StartAsync();
-      _ = Task.Run(DoWork);
+      Task worker = Task.Run(DoWork);
+      return worker.IsCanceled ? worker : Task.CompletedTask;
     }
 
     private void DoWork()
@@ -65,9 +60,6 @@ namespace SmartServer.Worker
             {
               case "temperature":
                 responseMsg = CreateTemperatureAutodiscoverResponse(chipId);
-                var tempClient = new SmartTemperatureClient(chipId);
-                _temperatureDataSource.AddOrUpdateSmartTemperatureClient(tempClient);
-                _mqttClientService.SubscribeToSmartTemperatureClient(tempClient);
                 break;
               default:
                 _logger.LogWarning("Unknown type in autodiscover message: {0}", type);

@@ -6,5 +6,6 @@
     public static int VERSION = 1;
     public static string MQTT_CLIENT_NAME = "SmartServer";
     public static string SQLITE_CONNECTION_STRING = "Data Source=SmartServer.db";
+    public static string MQTT_TEMPERATURE_TOPIC = "/iot/temperature/";
   }
 }

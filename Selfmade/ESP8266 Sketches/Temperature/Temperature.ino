@@ -30,8 +30,13 @@ void loop() {
   scanMqttBroker();
   handleMqttBrokerConnection();
 
-  String publishTemperatureDataTopic = "/iot/temperature/" + chipId;
-  client.publish(publishTemperatureDataTopic.c_str(), "Hello World");
+  if(client.connected()){
+    String publishTemperatureDataTopic = "/iot/temperature/" + chipId;
+    client.publish(publishTemperatureDataTopic.c_str(), "23.34;21.12");
+    Serial.println("MQTT message was published");
+  }
+  
+  delay(5000);
 }
 
 void checkForUpdates() {

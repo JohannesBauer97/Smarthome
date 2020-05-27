@@ -12,7 +12,10 @@ namespace SmartServer.Ef.Migrations
                 columns: table => new
                 {
                     ChipId = table.Column<string>(nullable: false),
-                    Discovered = table.Column<DateTime>(nullable: false)
+                    Discovered = table.Column<DateTime>(nullable: false),
+                    LastDataUpdate = table.Column<DateTime>(nullable: false),
+                    Temperature = table.Column<double>(nullable: false),
+                    Humidity = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

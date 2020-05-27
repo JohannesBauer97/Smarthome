@@ -24,6 +24,15 @@ namespace SmartServer.Ef.Migrations
                     b.Property<DateTime>("Discovered")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Humidity")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("LastDataUpdate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("REAL");
+
                     b.HasKey("ChipId");
 
                     b.ToTable("SmartTemperatureClients");
