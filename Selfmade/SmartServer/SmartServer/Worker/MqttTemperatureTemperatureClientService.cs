@@ -93,7 +93,10 @@ namespace SmartServer.Worker
     public async void Dispose()
     {
       _logger.LogInformation("Stopping MqttTemperatureTemperatureClientService");
-      await _mqttClient.DisconnectAsync();
+      if (_mqttClient != null)
+      {
+        await _mqttClient.DisconnectAsync();
+      }
     }
   }
 }

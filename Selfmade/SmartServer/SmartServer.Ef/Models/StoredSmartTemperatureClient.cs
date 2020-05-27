@@ -18,7 +18,6 @@ namespace SmartServer.Ef.Models
     public static StoredSmartTemperatureClient FromSmartTemperatureClient(SmartTemperatureClient client)
     {
       var storedClient = new StoredSmartTemperatureClient();
-      storedClient.Discovered = client.Discovered;
       storedClient.ChipId = client.ChipId;
       storedClient.Humidity = client.Humidity;
       storedClient.LastDataUpdate = client.LastDataUpdate;

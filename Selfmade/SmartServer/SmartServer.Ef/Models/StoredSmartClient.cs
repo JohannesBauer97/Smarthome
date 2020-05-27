@@ -12,6 +12,5 @@ namespace SmartServer.Ef.Models
     [Key]
     public string ChipId { get; set; }
 
-    public DateTime Discovered { get; set; }
   }
 }

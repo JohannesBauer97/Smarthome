@@ -50,7 +50,6 @@ namespace SmartServer.Ef
         }
         else
         {
-          storedClient.Discovered = client.Discovered;
           storedClient.Temperature = client.Temperature;
           storedClient.Humidity = client.Humidity;
           storedClient.LastDataUpdate = client.LastDataUpdate;

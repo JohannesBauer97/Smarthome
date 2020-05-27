@@ -9,7 +9,7 @@ using SmartServer.Ef;
 namespace SmartServer.Ef.Migrations
 {
     [DbContext(typeof(SmartServerContext))]
-    [Migration("20200526202825_Initialize")]
+    [Migration("20200527191044_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,9 +21,6 @@ namespace SmartServer.Ef.Migrations
             modelBuilder.Entity("SmartServer.Ef.Models.StoredSmartTemperatureClient", b =>
                 {
                     b.Property<string>("ChipId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Discovered")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Humidity")

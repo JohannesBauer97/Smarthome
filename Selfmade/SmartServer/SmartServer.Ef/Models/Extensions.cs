@@ -14,7 +14,6 @@ namespace SmartServer.Ef.Models
         return null;
       }
       SmartTemperatureClient smartTemperatureClient = new SmartTemperatureClient(storedSmartTemperatureClient.ChipId);
-      smartTemperatureClient.Discovered = storedSmartTemperatureClient.Discovered;
       smartTemperatureClient.Temperature = storedSmartTemperatureClient.Temperature;
       smartTemperatureClient.Humidity = storedSmartTemperatureClient.Humidity;
       smartTemperatureClient.LastDataUpdate = storedSmartTemperatureClient.LastDataUpdate;

@@ -21,9 +21,6 @@ namespace SmartServer.Ef.Migrations
                     b.Property<string>("ChipId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Discovered")
-                        .HasColumnType("TEXT");
-
                     b.Property<double>("Humidity")
                         .HasColumnType("REAL");
 

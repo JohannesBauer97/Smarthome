@@ -11,6 +11,5 @@ namespace SmartServer.Common.Models
 
     public string ChipId { get; }
 
-    public DateTime Discovered { get; set; } = DateTime.Now;
   }
 }
