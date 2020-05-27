@@ -11,11 +11,18 @@ using SmartServer.Repositories;
 using SmartServer.Repositories.Abstraction;
 using SmartServer.Worker;
 using SmartServer.Worker.Abstraction;
+using EnvironmentName = Microsoft.AspNetCore.Hosting.EnvironmentName;
 
 namespace SmartServer
 {
   public class Startup
   {
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public Startup(IWebHostEnvironment webHostEnvironment)
+    {
+      _webHostEnvironment = webHostEnvironment;
+    }
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddSwaggerGen(c =>
@@ -28,6 +35,15 @@ namespace SmartServer
         });
         c.IncludeXmlComments($"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
       });
+
+      if (_webHostEnvironment.IsDevelopment())
+      {
+        services.AddCors(o => o.AddDefaultPolicy(builder =>
+        {
+          builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+        }));
+      }
+
       services.AddDbContext<SmartServerContext>(opt => opt.UseSqlite(Constants.SQLITE_CONNECTION_STRING), ServiceLifetime.Transient);
       services.AddControllers();
       services.AddHostedService<MqttBrokerService>();
@@ -41,6 +57,7 @@ namespace SmartServer
     {
       if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
+      app.UseCors();
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
