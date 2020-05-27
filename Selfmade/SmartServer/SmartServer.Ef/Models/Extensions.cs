@@ -9,6 +9,10 @@ namespace SmartServer.Ef.Models
   {
     public static SmartTemperatureClient ConvertToSmartClient(this StoredSmartTemperatureClient storedSmartTemperatureClient)
     {
+      if (storedSmartTemperatureClient == null)
+      {
+        return null;
+      }
       SmartTemperatureClient smartTemperatureClient = new SmartTemperatureClient(storedSmartTemperatureClient.ChipId);
       smartTemperatureClient.Discovered = storedSmartTemperatureClient.Discovered;
       smartTemperatureClient.Temperature = storedSmartTemperatureClient.Temperature;
