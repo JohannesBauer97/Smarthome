@@ -21,5 +21,11 @@ namespace SmartServer.Repositories
     {
       return _temperatureDataSource.GetSmartTemperatureClients();
     }
+
+    public SmartTemperatureClient UpdateSmartTemperatureClient(SmartTemperatureClient smartTemperatureClient)
+    {
+      return _temperatureDataSource.UpdateSmartTemperatureClientName(smartTemperatureClient.ChipId,
+        smartTemperatureClient.Name);
+    }
   }
 }

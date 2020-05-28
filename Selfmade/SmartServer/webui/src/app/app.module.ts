@@ -9,8 +9,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {HttpClientModule} from '@angular/common/http';
-import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { TimeDiffInSecondsPipe } from './temperature/time-diff-in-seconds.pipe';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {TimeDiffInSecondsPipe} from './temperature/time-diff-in-seconds.pipe';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { TimeDiffInSecondsPipe } from './temperature/time-diff-in-seconds.pipe';
     MatCardModule,
     FlexLayoutModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

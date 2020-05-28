@@ -7,7 +7,11 @@ import * as moment from 'moment';
 export class TimeDiffInSecondsPipe implements PipeTransform {
 
   transform(value: moment.Moment, postfix: string): unknown {
-    return moment().diff(value, 'seconds').toString() + postfix;
+    const diff = moment().diff(value, 'seconds');
+    if (diff <= 60){
+      return diff + postfix;
+    }
+    return moment(value).fromNow().toString();
   }
 
 }

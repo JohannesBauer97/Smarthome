@@ -20,9 +20,22 @@ namespace SmartServer.Controllers
     }
 
     [HttpGet("devices")]
-    public List<SmartTemperatureClient> Get()
+    [ProducesResponseType(typeof(List<SmartTemperatureClient>), 200)]
+    public IActionResult Get()
     {
-      return _temperatureRepository.GetAllDevices();
+      return Ok(_temperatureRepository.GetAllDevices());
+    }
+
+    [HttpPut("device")]
+    [ProducesResponseType(typeof(SmartTemperatureClient), 200)]
+    public IActionResult UpdateSmartTemperatureClient([FromBody]SmartTemperatureClient smartTemperatureClient)
+    {
+      var res = _temperatureRepository.UpdateSmartTemperatureClient(smartTemperatureClient);
+      if (res == null)
+      {
+        return NotFound();
+      }
+      return Ok(res);
     }
   }
 }

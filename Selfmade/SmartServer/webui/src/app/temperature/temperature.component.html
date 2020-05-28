@@ -1,8 +1,16 @@
 <div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap.gt-xs="32px" id="wrapper">
-  <mat-spinner *ngIf="!devices"></mat-spinner>
+  <mat-spinner *ngIf="!devices && !error"></mat-spinner>
+  <p *ngIf="error">{{error.message}}</p>
   <mat-card *ngFor="let device of devices">
-    <mat-card-title>{{device.chipId}}</mat-card-title>
-    <mat-card-subtitle>{{device.lastDataUpdate | timeDiffInSeconds: ' seconds ago.'}}</mat-card-subtitle>
+      <mat-card-title>
+        <span (click)="startEdit(device.chipId)" *ngIf="!editMode.enabled && editMode.chipId != device.chipId">{{device.name || device.chipId}}</span>
+        <mat-form-field *ngIf="editMode.enabled && editMode.chipId == device.chipId">
+          <mat-label>Name</mat-label>
+          <input matInput autofocus (focusout)="stopEdit(inputElement.value)" #inputElement>
+        </mat-form-field>
+      </mat-card-title>
+      <mat-card-subtitle>{{device.lastDataUpdate | timeDiffInSeconds: ' seconds ago.'}}</mat-card-subtitle>
+
     <mat-card-content>
       <div class="data-row">
         <mat-icon>ac_unit</mat-icon><span>{{device.temperature}}°C</span>

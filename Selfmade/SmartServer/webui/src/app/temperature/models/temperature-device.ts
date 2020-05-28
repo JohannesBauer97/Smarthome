@@ -5,4 +5,5 @@ export class TemperatureDevice {
   temperature: string;
   humidity: string;
   chipId: string;
+  name?: string;
 }

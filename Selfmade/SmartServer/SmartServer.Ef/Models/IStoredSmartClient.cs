@@ -5,10 +5,8 @@ using System.Text;
 
 namespace SmartServer.Ef.Models
 {
-  public abstract class StoredSmartClient
+  public interface IStoredSmartClient
   {
-    public StoredSmartClient() { }
-
     [Key]
     public string ChipId { get; set; }
 

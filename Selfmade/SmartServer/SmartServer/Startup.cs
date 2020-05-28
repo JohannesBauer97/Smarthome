@@ -66,16 +66,15 @@ namespace SmartServer
       app.UseSpaStaticFiles();
       app.UseRouting();
       app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-      app.UseSpa(builder => {});
-      app.UseCors();
-      app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
         c.RoutePrefix = "swagger";
         c.SwaggerEndpoint($"/swagger/{Constants.VERSION.ToString()}/swagger.json",
           $"SmartServer v{Constants.VERSION.ToString()}");
       });
-      
+      app.UseSwagger();
+      app.UseSpa(builder => {});
+      app.UseCors();
     }
   }
 }

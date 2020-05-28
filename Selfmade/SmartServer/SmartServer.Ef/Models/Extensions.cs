@@ -13,10 +13,11 @@ namespace SmartServer.Ef.Models
       {
         return null;
       }
-      SmartTemperatureClient smartTemperatureClient = new SmartTemperatureClient(storedSmartTemperatureClient.ChipId);
+      SmartTemperatureClient smartTemperatureClient = new SmartTemperatureClient{ChipId = storedSmartTemperatureClient.ChipId};
       smartTemperatureClient.Temperature = storedSmartTemperatureClient.Temperature;
       smartTemperatureClient.Humidity = storedSmartTemperatureClient.Humidity;
       smartTemperatureClient.LastDataUpdate = storedSmartTemperatureClient.LastDataUpdate;
+      smartTemperatureClient.Name = storedSmartTemperatureClient.Name;
       return smartTemperatureClient;
     }
   }

@@ -7,7 +7,7 @@
 #include <WiFiUdp.h>
 #include <PubSubClient.h>
 #include <Adafruit_AM2320.h>
-const int FW_VERSION = 2;
+const int FW_VERSION = 3;
 const char* FW_VERSION_URL = "http://esp.serverlein.de/temperature/version";
 const char* FW_IMAGE_URL = "http://esp.serverlein.de/temperature/img.bin";
 const unsigned int UDP_PORT = 7352;
@@ -42,7 +42,7 @@ void loop() {
     client.publish(publishTemperatureDataTopic.c_str(), publishValues.c_str());
     Serial.println("MQTT message was published");
     delay(1000);
-    ESP.deepSleep(30e6); 
+    ESP.deepSleep(60e6); 
   }
 
 }

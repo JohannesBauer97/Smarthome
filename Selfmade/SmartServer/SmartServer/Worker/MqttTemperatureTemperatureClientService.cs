@@ -82,7 +82,7 @@ namespace SmartServer.Worker
       SmartTemperatureClient client = _temperatureDataSource.GetSmartTemperatureClientByChipId(chipId);
       if (client == null)
       {
-        client = new SmartTemperatureClient(chipId);
+        client = new SmartTemperatureClient{ChipId = chipId};
       }
       client.Temperature = newTemperature;
       client.Humidity = newHumidity;

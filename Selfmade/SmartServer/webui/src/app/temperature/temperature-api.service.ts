@@ -14,14 +14,18 @@ export class TemperatureApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public GetTemperatureDevices(): Observable<TemperatureDevice[]>{
+  public GetTemperatureDevices(): Observable<TemperatureDevice[]> {
     return this.httpClient.get<TemperatureDevice[]>(`${environment.apiBase}/temperature/devices`).pipe(
       map(value => {
         value.forEach(value1 => {
-          value1.lastDataUpdate = moment(value1.lastDataUpdate)
+          value1.lastDataUpdate = moment(value1.lastDataUpdate);
         });
         return value;
       })
     );
+  }
+
+  public UpdateTemperatureDevice(updateTemperatureDevice: TemperatureDevice): Observable<TemperatureDevice> {
+    return this.httpClient.put<TemperatureDevice>(`${environment.apiBase}/temperature/device`, updateTemperatureDevice);
   }
 }

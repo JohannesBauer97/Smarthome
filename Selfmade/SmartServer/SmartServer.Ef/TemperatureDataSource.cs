@@ -64,6 +64,24 @@ namespace SmartServer.Ef
       }
     }
 
+    public SmartTemperatureClient UpdateSmartTemperatureClientName(string chipId, string newName)
+    {
+      var scope = _serviceProvider.CreateScope();
+      using (SmartServerContext db = scope.ServiceProvider.GetService<SmartServerContext>())
+      {
+        var client = db.SmartTemperatureClients.FirstOrDefault(c => c.ChipId == chipId);
+        if (client == null)
+        {
+          return null;
+        }
+
+        client.Name = newName;
+        db.SaveChanges();
+
+        return db.SmartTemperatureClients.FirstOrDefault(c => c.ChipId == client.ChipId).ConvertToSmartClient();
+      }
+    }
+
     public bool DeleteSmartTemperatureClient(string chipId)
     {
       var scope = _serviceProvider.CreateScope();
