@@ -3,8 +3,13 @@ services:
     smartserver:
         image: serverlein/smartserver:latest
         restart: always
+        volumes:
+            - ./data:/app/Data
         environment:
-            BrokerAddress: '192.168.188.24'
+            - BrokerAddress=192.168.188.24
+            - Logging__LogLevel__Default=DEBUG
+            - Logging__LogLevel__Microsoft=INFORMATION
         ports:
             - "1883:1883"
             - "2000:80"
+            - "7352:7352/udp"

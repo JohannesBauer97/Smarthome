@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim-arm32v7 AS base
-EXPOSE 80 1883
+EXPOSE 80 1883 7352/udp
 
 #
 # Service
