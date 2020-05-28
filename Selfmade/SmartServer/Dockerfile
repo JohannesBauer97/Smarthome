@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim-arm32v7 AS base
 EXPOSE 80 1883
 
 #
@@ -27,5 +27,5 @@ RUN ["npm", "run", "build"]
 FROM base AS final
 WORKDIR /app
 COPY --from=publish-service /app/publish .
-COPY --from=build-angular /src/dist /app/wwwroot/
+COPY --from=build-angular /src/dist/webui /app/wwwroot/
 ENTRYPOINT ["dotnet", "SmartServer.dll"]

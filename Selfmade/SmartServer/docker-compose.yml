@@ -1,7 +1,10 @@
-version: '3.7'
+version: '3.3'
 services:
-    mqttbroker:
-        image: eclipse-mosquitto:latest
+    smartserver:
+        image: serverlein/smartserver:latest
         restart: always
+        environment:
+            BrokerAddress: '192.168.188.24'
         ports:
             - "1883:1883"
+            - "2000:80"
