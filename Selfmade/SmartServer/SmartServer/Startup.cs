@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,6 +45,11 @@ namespace SmartServer
         }));
       }
 
+      services.AddSpaStaticFiles(options =>
+      {
+        options.RootPath = "wwwroot";
+      });
+
       services.AddDbContext<SmartServerContext>(opt => opt.UseSqlite(Constants.SQLITE_CONNECTION_STRING), ServiceLifetime.Transient);
       services.AddControllers();
       services.AddHostedService<MqttBrokerService>();
@@ -56,7 +62,11 @@ namespace SmartServer
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
+      app.UseDefaultFiles();
+      app.UseSpaStaticFiles();
+      app.UseRouting();
+      app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+      app.UseSpa(builder => {});
       app.UseCors();
       app.UseSwagger();
       app.UseSwaggerUI(c =>
@@ -65,9 +75,7 @@ namespace SmartServer
         c.SwaggerEndpoint($"/swagger/{Constants.VERSION.ToString()}/swagger.json",
           $"SmartServer v{Constants.VERSION.ToString()}");
       });
-      app.UseRouting();
-      app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
+      
     }
   }
 }

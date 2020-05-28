@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,6 +31,10 @@
     <None Update="SmartServer.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 
