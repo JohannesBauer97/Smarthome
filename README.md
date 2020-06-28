@@ -1,3 +1,9 @@
 # Smarthome
-Archiv: ESP8266 Project
-Hass.io: Project Files
+
+## Folder Structure
+* Archiv
+  * Old ESP8266 Sketches
+* Hass.io
+  * Homeassistant Project (deprecated)
+* Selfmade
+  * Current Smarthome System
